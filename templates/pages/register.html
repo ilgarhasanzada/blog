@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% block header %}
+    {% include 'page-header.html' with title="Register" %}
+{% endblock header %}
+{% block main %}
+{% for message in messages %}
+        <div class="fixed-top alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <strong>{{message}}</strong>
+        </div>
+    {% endfor %}
+<div class="w-50 mx-auto">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div>
+            <label class="form-label" for="username">Username</label>
+            <input class="form-control" type="text" name="username" id="username" required>
+        </div>
+        <div>
+            <label class="form-label" for="email">Email</label>
+            <input class="form-control" type="email" name="email" id="email" required>
+        </div>
+        <div>
+            <label class="form-label" for="first_name">First Name</label>
+            <input class="form-control" type="text" name="first_name" id="first_name" required>
+        </div>
+        <div>
+            <label class="form-label" for="last_name">Last Name</label>
+            <input class="form-control" type="text" name="last_name" id="last_name" required>
+        </div>
+        <div>
+            <label class="form-label" for="password">Password</label>
+            <input class="form-control" type="password" name="password1" id="password" required>
+        </div>
+        <div>
+            <label class="form-label" for="password2">Password Again</label>
+            <input class="form-control" type="password" name="password2" id="password2" required>
+        </div> 
+        {% comment %} {{form.as_p}}  {% endcomment %}
+       
+        <button type="submit" class="btn btn-primary my-3">Register</button>
+    </form>
+</div>
+{% endblock main %}

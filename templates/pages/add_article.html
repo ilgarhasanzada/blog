@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+{% block header %}
+    {% include 'page-header.html' with title="Article" %}
+{% endblock header %}
+{% block main %}
+<form class="m-5" action="" method="post"  enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock main %}
