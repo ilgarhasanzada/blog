@@ -1,0 +1,89 @@
+{% extends 'layout.html' %}
+{% load urlhelper %}
+
+{% block header %}
+    {% include 'page-header.html' with title="Blog" description="All articles for read!" image="assets/img/home-bg.jpg" %}
+{% endblock header %}
+{% block main %}
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="position-lg-absolute">
+            <h1>Authors</h1>
+            <ul>
+                {% for author in authors %}
+                    <li><a href="{% edit_querystring request page=1 author=author.pk %}">{{author.first_name}} {{author.last_name}} - {{author.articles.count}}</a></li>
+                {% endfor %} 
+            </ul>
+            <hr>
+        </div>
+        
+        <div class="col-md-10 col-lg-8 col-xl-7" style="z-index: 10;">
+            <label for="search">Title</label>
+            <form action={% url 'blog' %} method="get" class="d-flex">
+                <input id="search" class="form-control me-2" name="search" type="text">
+                <button type="submit" class="btn btn-secondary">Search</button>
+            </form>
+            <!-- Post preview-->
+            {% for article in article_obg %}
+                    <div class="post-preview">
+                        <a href="{{article.get_absolute_url}}">
+                            <h2 class="post-title">{{article.title}}</h2>
+                            <h3 class="post-subtitle text-truncate">{{article.explanation}}</h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            <a href="{% edit_querystring  request page=1 author=article.owner.id %}">{{article.owner}}</a>
+                            on {{article.created_time}}
+                        </p>
+                    
+                    </div>
+                    <!-- Divider-->
+                    <hr class="my-4" />
+                    <!-- Post preview-->
+            {% endfor %}
+            {% if  article_obg%}
+            <nav aria-label="...">
+                <ul class="pagination">
+                {% if article_obg.has_previous%}
+                  <li class="page-item">
+                    <a class="page-link" href="{% edit_querystring request page=article_obg.previous_page_number %}">Previous</a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                  </li>
+                {% endif %}
+                {% for page_number in article_obg.paginator.page_range %}
+                {% if page_number == article_obg.number %}
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="{% edit_querystring request page=page_number %}">{{page_number}}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item" aria-current="page">
+                        <a class="page-link" href="{% edit_querystring request page=page_number %}">{{page_number}}</a>
+                    </li>
+                {% endif %}
+                
+                {% endfor %}
+                {% if article_obg.has_next%}
+                  <li class="page-item">
+                    <a class="page-link" href="{% edit_querystring request page=article_obg.next_page_number %}">Next</a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                  </li>
+                {% endif %}
+                </ul>
+              </nav>
+              {% endif %}
+            <h1>Tracking Information</h1>
+            <p>Article count: {{article_count}}</p>
+            <p>Avarage: {{article_statistics.avg}}</p>
+            <p>Minimum: {{article_statistics.min}}({% for article in min_view_article %}{% if forloop.last%}{{article.title}}{% else %}{{article.title}}, {% endif %}{% endfor %})</p>
+            <p>Maximum: {{article_statistics.max}}({% for article in max_view_article %}{% if forloop.last%}{{article.title}}{% else %}{{article.title}}, {% endif %}{% endfor %})</p>
+            <p>Total: {{article_statistics.sum}}</p>
+            <!-- Pager-->
+        </div>
+    </div>
+</div>{% endblock main %}

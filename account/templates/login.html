@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block header %}
+    {% include 'page-header.html' with title="Login" %}
+{% endblock header %}
+
+{% block main %}
+    <form class="mx-auto w-50 my-5" action="" method="post">
+        {% csrf_token %}
+        {% for message in messages %}
+        <div class="my-5 alert alert-danger alert-dismissible fade show shadow" role="alert">
+            <strong>{{message}}</strong>
+        </div>
+    {% endfor %}
+        <div>
+            <label class="form-label" for="username">Username or Email</label>
+            <input id="username" class="form-control" type="text" placeholder="Username or Email" name="username"><br>
+        </div>
+        <div>
+            <label class="form-label" for="password">Password</label>
+            <input id=password class="form-control" type="password" placeholder="Password" name="password"><br>
+        </div>
+        <button class="btn btn-primary shadow" type="submit">Login</button>
+    </form>
+{% endblock main %}
+

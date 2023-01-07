@@ -1,12 +1,8 @@
 from django.forms import ModelForm
-from .models import Contact,Post
+from .models import Article
 
-class ContactForm(ModelForm):
+class ArticleForm(ModelForm):
     class Meta:
-        model=Contact
-        fields='__all__'
-
-class PostForm(ModelForm):
-    class Meta:
-        model=Post
-        exclude=("owner","view_count","slug")
+        model = Article
+        exclude = ("owner", "view_count")
+        
